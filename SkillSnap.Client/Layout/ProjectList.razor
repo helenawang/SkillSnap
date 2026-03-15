@@ -1,0 +1,26 @@
+@using SkillSnap.Shared
+@using SkillSnap.Shared.Models
+@code {
+    [Parameter]
+    public IEnumerable<ProjectDto> Projects { get; set; } = Enumerable.Empty<ProjectDto>();
+}
+
+<div class="project-list">
+    @if (Projects.Any())
+    {
+        <ul>
+            @foreach (var project in Projects)
+            {
+                <li>
+                    <strong>@project.Title</strong><br />
+                    <span>@project.Description</span><br />
+                    <img src="@project.ImageUrl" alt="Project Image" class="project-image" />
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No projects found.</p>
+    }
+</div>

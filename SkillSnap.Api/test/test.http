@@ -1,2 +1,9 @@
+# 生成数据
 POST http://localhost:5268/api/seed
+content-type: application/json
+
+###
+
+# 获取数据
+GET http://localhost:5268/api/get
 content-type: application/json

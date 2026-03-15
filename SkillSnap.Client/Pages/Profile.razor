@@ -1,0 +1,19 @@
+@using SkillSnap.Shared.Models
+@code {
+    [Parameter]
+    public IEnumerable<PortfolioUserDto> Users { get; set; } = Enumerable.Empty<PortfolioUserDto>();
+}
+
+<div class="profile-list">
+    @if (Users.Any())
+    {
+        @foreach (var user in Users)
+        {
+            <ProfileCard User="@user" />
+        }
+    }
+    else
+    {
+        <p>No users found.</p>
+    }
+</div>

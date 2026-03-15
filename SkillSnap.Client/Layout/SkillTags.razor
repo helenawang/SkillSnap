@@ -1,0 +1,29 @@
+@using SkillSnap.Shared.Models
+@code {
+    [Parameter]
+    public IEnumerable<SkillDto> Skills { get; set; } = Enumerable.Empty<SkillDto>();
+}
+
+<div class="skill-tags">
+    @foreach (var skill in Skills)
+    {
+        <span class="skill-tag">@skill.Name (Level @skill.Level)</span>
+    }
+</div>
+
+<style>
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+</style>
