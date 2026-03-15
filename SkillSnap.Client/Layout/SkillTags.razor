@@ -1,13 +1,26 @@
+@using SkillSnap.Client.Services
 @using SkillSnap.Shared.Models
+@inject SkillService SkillService
+
 @code {
-    [Parameter]
-    public IEnumerable<SkillDto> Skills { get; set; } = Enumerable.Empty<SkillDto>();
+    private List<SkillDto>? skills;
+    protected override async Task OnInitializedAsync()
+    {
+        skills = await SkillService.GetSkillsAsync();
+    }
 }
 
 <div class="skill-tags">
-    @foreach (var skill in Skills)
+    @if (skills != null && skills.Any())
     {
-        <span class="skill-tag">@skill.Name (Level @skill.Level)</span>
+        @foreach (var skill in skills)
+        {
+            <span class="skill-tag">@skill.Name (Level @skill.Level)</span>
+        }
+    }
+    else
+    {
+        <p>No skills found.</p>
     }
 </div>
 

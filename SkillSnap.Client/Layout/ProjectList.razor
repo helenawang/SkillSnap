@@ -1,15 +1,21 @@
+@using SkillSnap.Client.Services
 @using SkillSnap.Shared
 @using SkillSnap.Shared.Models
+@inject ProjectService ProjectService
+
 @code {
-    [Parameter]
-    public IEnumerable<ProjectDto> Projects { get; set; } = Enumerable.Empty<ProjectDto>();
+    private List<ProjectDto>? projects;
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await ProjectService.GetProjectsAsync();
+    }
 }
 
 <div class="project-list">
-    @if (Projects.Any())
+    @if (projects != null && projects.Any())
     {
         <ul>
-            @foreach (var project in Projects)
+            @foreach (var project in projects)
             {
                 <li>
                     <strong>@project.Title</strong><br />
