@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using SkillSnap.Api.Components;
+using SkillSnap.Api.Data;
 using SkillSnap.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,8 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<SkillSnapContext>();
 
 var app = builder.Build();
 
