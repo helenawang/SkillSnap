@@ -9,6 +9,9 @@ public class PortfolioUser
     public string Name { get; set; } = string.Empty;
     public string Bio { get; set; } = string.Empty;
     public string ProfileImageUrl { get; set; } = string.Empty;
+
+    // One PortfolioUser -> Many Projects
     public List<Project> Projects { get; set; } = new();
+    // One PortfolioUser -> Many Skills
     public List<Skill> Skills { get; set; } = new();
 }

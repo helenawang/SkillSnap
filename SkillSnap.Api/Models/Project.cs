@@ -10,7 +10,9 @@ public class Project
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
-
-    [ForeignKey("PortfolioUserId")]
     public int PortfolioUserId { get; set; }
+
+    // navigational property
+    [ForeignKey(nameof(PortfolioUserId))]
+    public PortfolioUser PortfolioUser { get; set; } = null!;
 }
