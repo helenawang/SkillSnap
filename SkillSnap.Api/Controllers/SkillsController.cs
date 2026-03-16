@@ -37,7 +37,12 @@ public class SkillsController : ControllerBase
         const string fallbackKey = "skills:all:fallback";
 
         if (_cache.TryGetValue(cacheKey, out List<Skill>? cachedSkills) && cachedSkills is not null)
+        {
+            _logger.LogInformation("Cache HIT: {CacheKey}", cacheKey);
             return Ok(cachedSkills);
+        }
+
+        _logger.LogInformation("Cache MISS: {CacheKey}", cacheKey);
 
         try
         {
@@ -61,7 +66,11 @@ public class SkillsController : ControllerBase
             _logger.LogWarning(ex, "Failed to read skills from DB. Attempting fallback cache.");
 
             if (_cache.TryGetValue(fallbackKey, out List<Skill>? fallbackSkills) && fallbackSkills is not null)
+            {
+                _logger.LogInformation("Fallback cache HIT: {CacheKey}", fallbackKey);
                 return Ok(fallbackSkills);
+            }
+            _logger.LogInformation("Fallback cache MISS: {CacheKey}", fallbackKey);
 
             return StatusCode(StatusCodes.Status503ServiceUnavailable, "Skills are temporarily unavailable.");
         }
