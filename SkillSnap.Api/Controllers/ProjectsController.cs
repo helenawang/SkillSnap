@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillSnap.Api.Data;
@@ -28,6 +29,7 @@ public class ProjectsController : ControllerBase
     }
 
     // POST: /api/projects
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Project>> CreateProject([FromBody] Project project)
     {
