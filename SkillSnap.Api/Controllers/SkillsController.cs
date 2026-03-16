@@ -43,6 +43,7 @@ public class SkillsController : ControllerBase
         {
             var skills = await _context.Set<Skill>()
                 .AsNoTracking()
+                .Include(s => s.PortfolioUser)
                 .ToListAsync();
 
             _cache.Set(cacheKey, skills, new MemoryCacheEntryOptions
@@ -80,6 +81,7 @@ public class SkillsController : ControllerBase
         {
             var skill = await _context.Set<Skill>()
                 .AsNoTracking()
+                .Include(s => s.PortfolioUser)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             if (skill is null) return NotFound();
@@ -117,6 +119,7 @@ public class SkillsController : ControllerBase
             return BadRequest("Name is required.");
 
         var userExists = await _context.Set<PortfolioUser>()
+            .AsNoTracking()
             .AnyAsync(u => u.Id == skill.PortfolioUserId);
 
         if (!userExists)

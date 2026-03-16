@@ -43,6 +43,7 @@ public class ProjectsController : ControllerBase
         {
             var projects = await _context.Set<Project>()
                 .AsNoTracking()
+                .Include(p => p.PortfolioUser)
                 .ToListAsync();
 
             _cache.Set(cacheKey, projects, new MemoryCacheEntryOptions
@@ -78,6 +79,7 @@ public class ProjectsController : ControllerBase
             return BadRequest("Title is required.");
 
         var userExists = await _context.Set<PortfolioUser>()
+            .AsNoTracking()
             .AnyAsync(u => u.Id == project.PortfolioUserId);
 
         if (!userExists)
@@ -86,11 +88,9 @@ public class ProjectsController : ControllerBase
         _context.Set<Project>().Add(project);
         await _context.SaveChangesAsync();
 
-        // Invalidate list caches
         _cache.Remove("projects:all");
         _cache.Remove("projects:all:fallback");
 
-        // Prime item cache
         var itemKey = $"projects:{project.Id}";
         var itemFallbackKey = $"projects:{project.Id}:fallback";
 
@@ -118,6 +118,7 @@ public class ProjectsController : ControllerBase
         {
             var project = await _context.Set<Project>()
                 .AsNoTracking()
+                .Include(p => p.PortfolioUser)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (project is null) return NotFound();
